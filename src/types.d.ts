@@ -32,3 +32,11 @@ interface IDescription {
   title: string
   description: string
 }
+interface IFormAddDevice {
+  type: IType
+  brand: IBrand
+  deviceName: string
+  devicePrice: number
+  img: File
+  info: IDescription[]
+}

@@ -1,8 +1,7 @@
-import { Modal } from '@mui/material'
-import { Field, Formik, useFormik } from 'formik'
-import { useContext } from 'react'
-import * as Yup from 'yup'
+import { Button, InputLabel, MenuItem, Modal, Select } from '@mui/material'
+import { useContext, useState } from 'react'
 import { Context } from '../../App'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 export default function CreateDevice({
   open,
@@ -11,68 +10,192 @@ export default function CreateDevice({
   open: boolean
   close: () => void
 }) {
+  const [info, setInfo] = useState<IDescription[]>([])
   const { device } = useContext(Context)
-  function handleClose() {
-    console.log('type created!')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormAddDevice>()
+  const onSubmit: SubmitHandler<IFormAddDevice> = (data) => {
+    console.log(data)
     close()
   }
-  const formik = useFormik({
-    initialValues: {
-      type: '',
-    },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    },
-  })
-  return (
-    <Modal className="" open={open} onClose={handleClose}>
-      <section
-        style={{
-          width: 400,
-          color: 'white',
-          outline: 0,
-          marginTop: '50vh',
-          marginLeft: '50vw',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: '#1f2937',
-          padding: '20px',
-          borderRadius: '20px',
-        }}
-      >
-        <h2>Добавить тип</h2>
-        <Formik
-          initialValues={{
-            type: '', // added for our select
-          }}
-          validationSchema={Yup.object({
-            type: Yup.string().required('Required'),
-          })}
-          onSubmit={(values: any, { setSubmitting }: any) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2))
-              setSubmitting(false)
-            }, 400)
-          }}
-        >
-          <form onSubmit={formik.handleSubmit}>
-            <Field
-              label="type"
-              name="type"
-              as="select"
-              className="my-select text-black"
-            >
-              {device.types.map((dev: IDevice) => {
-                return (
-                  <option className="text-black" key={dev.id} value={dev.name}>
-                    {dev.name}
-                  </option>
-                )
-              })}
-            </Field>
+  const addInfo = () => {
+    setInfo([...info, { title: '', description: '', id: +Date.now() }])
+  }
+  const removeInfo = (id: number) => {
+    console.log(id)
 
-            <button type="submit">Submit</button>
-          </form>
-        </Formik>
+    setInfo(info.filter((i) => i.id !== id))
+  }
+  return (
+    <Modal className="" open={open} onClose={close}>
+      <section
+        className=" text-white outline-1 mt-[50vh] ml-[50vw]
+       translate-x-[-50%] translate-y-[-50%] bg-slate-300 dark:bg-slate-700 p-[20px] rounded-2xl"
+      >
+        <h2 className="text-center text-3xl mb-8">Добавить устройство</h2>
+        <form
+          className="flex flex-col gap-1 "
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <label
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            id="type"
+          >
+            Бренд устройства
+          </label>
+          <select
+            className="mb-4 cursor-pointer bg-gray-50 border
+             border-gray-300 text-gray-900 
+             text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block 
+          w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+           dark:placeholder-gray-400 dark:text-white
+            dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+            {...register('brand')}
+          >
+            {device.brands.map((brand: IBrand) => {
+              return (
+                <option
+                  className="cursor-pointer"
+                  key={brand.id}
+                  value={brand.name}
+                >
+                  {brand.name}
+                </option>
+              )
+            })}
+          </select>
+
+          <label
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            id="brand"
+          >
+            Тип устройства
+          </label>
+          <select
+            className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            {...register('type')}
+          >
+            {device.types.map((dev: IDevice) => {
+              return (
+                <option
+                  className="cursor-pointer"
+                  key={dev.id}
+                  value={dev.name}
+                >
+                  {dev.name}
+                </option>
+              )
+            })}
+          </select>
+          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Название
+          </label>
+          <input
+            type="text"
+            className=" bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Название"
+            {...register('deviceName', { required: true })}
+          />
+          {/* errors will return when field validation fails  */}
+          {errors.deviceName && (
+            <p className=" text-sm font-medium text-red-600 dark:text-red-500">
+              Введите название
+            </p>
+          )}
+          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Цена, р.
+          </label>
+          <input
+            type="number"
+            className=" bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Цена"
+            {...register('devicePrice', { required: true })}
+          />
+          {/* errors will return when field validation fails  */}
+          {errors.devicePrice && (
+            <p className=" text-sm font-medium text-red-600 dark:text-red-500">
+              Введите цену
+            </p>
+          )}
+          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Фото
+          </label>
+          <input
+            type="file"
+            className=" mb-8 block w-full text-sm
+             text-gray-900 border border-gray-300 rounded-lg cursor-pointer
+              bg-gray-50 dark:text-gray-400 focus:outline-none
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            placeholder="Фото"
+            {...register('img', { required: true })}
+          />
+          {/* errors will return when field validation fails  */}
+          {errors.img && (
+            <p className=" text-sm font-medium text-red-600 dark:text-red-500">
+              Добавьте фотографию
+            </p>
+          )}
+
+          <Button onClick={() => addInfo()} variant="outlined" color="success">
+            Добавить новое свойство
+          </Button>
+          <section className="flex flex-col gap-2 mt-6">
+            {info.map((i, index) => {
+              return (
+                <section key={index} className="flex  gap-2">
+                  <input
+                    type="text"
+                    className="basis-1/3 bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Введите название свойства"
+                    {...register('info')}
+                  />
+                  <input
+                    type="text"
+                    className="basis-1/3 bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Введите описание свойства"
+                    {...register('info')}
+                  />
+                  <Button
+                    className="basis-1/3"
+                    style={{ padding: '8px' }}
+                    onClick={() => removeInfo(i.id)}
+                    variant="outlined"
+                    color="error"
+                  >
+                    Удалить
+                  </Button>
+                </section>
+              )
+            })}
+          </section>
+          <footer className="flex gap-4 justify-end mt-4">
+            <Button variant="outlined" color="success" type="submit">
+              Добавить
+            </Button>
+            <Button onClick={() => close()} variant="outlined" color="error">
+              Закрыть
+            </Button>
+          </footer>
+        </form>
       </section>
     </Modal>
   )
