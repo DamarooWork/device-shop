@@ -32,9 +32,9 @@ export default function Auth() {
   })
 
   return (
-    <section
+    <main
       className="flex flex-col items-center 
-    justify-center h-[100vh] dark:bg-black "
+    justify-center mt-[30vh] "
     >
       <h1>Signup</h1>
       <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
@@ -65,6 +65,6 @@ export default function Auth() {
           Submit
         </Button>
       </form>
-    </section>
+    </main>
   )
 }

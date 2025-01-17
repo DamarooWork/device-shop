@@ -8,11 +8,11 @@ export default observer(function BrandBar() {
   const { device } = useContext(Context)
 
   return (
-    <section className="flex items-center justify-center  flex-wrap gap-4">
+    <section className="flex items-center justify-center  flex-wrap gap-4 mb-12">
       {device.brands.map((brand: IBrand) => {
         return (
           <Card
-            className="flex-1 basis-1/6 text-center"
+            className="flex-1 basis-1/6 text-center "
             key={brand.id}
             variant="outlined"
             onClick={() => device.setSelectedBrand(brand)}

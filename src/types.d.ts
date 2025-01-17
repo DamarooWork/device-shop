@@ -27,3 +27,8 @@ interface IDevice {
   rating: number
   img: string
 }
+interface IDescription {
+  id: number
+  title: string
+  description: string
+}
