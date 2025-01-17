@@ -1,5 +1,6 @@
 import { Container } from '@mui/material'
 import TypeBar from '../components/TypeBar'
+import BrandBar from '../components/BrandBar'
 
 export default function Shop() {
   return (
@@ -8,7 +9,9 @@ export default function Shop() {
         <div className="flex-1">
           <TypeBar />
         </div>
-        <div className="flex-[3]">123</div>
+        <div className="flex-[3]">
+          <BrandBar />
+        </div>
       </section>
     </>
   )

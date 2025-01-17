@@ -4,7 +4,8 @@ export default class DeviceStore {
   _types: IType[]
   _brands: IBrand[]
   _devices: IDevice[]
-  _selectedType: {}
+  _selectedType: IType
+  _selectedBrand: IBrand
   constructor() {
     this._types = [
       { id: 1, name: 'Холодильники' },
@@ -14,9 +15,16 @@ export default class DeviceStore {
     ]
     this._brands = [
       { id: 1, name: 'Samsung' },
-      { id: 2, name: 'Samsung' },
+      { id: 2, name: 'Apple' },
+      { id: 3, name: 'Lenovo' },
+      { id: 4, name: 'Asus' },
+      { id: 5, name: 'MSI' },
+      { id: 6, name: 'ACER' },
+      { id: 7, name: 'HTC' },
+      { id: 8, name: 'HUAWEI' },
+      { id: 9, name: 'NOKIA' },
     ]
-    this._devices = [
+    ;(this._devices = [
       {
         id: 1,
         name: 'Iphone 12 pro',
@@ -52,9 +60,10 @@ export default class DeviceStore {
         rating: 5,
         img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
       },
-    ]
-    this._selectedType = { id: 1, name: 'Холодильники' }
-    makeAutoObservable(this)
+    ]),
+      (this._selectedType = { id: 1, name: 'Холодильники' }),
+      (this._selectedBrand = { id: 1, name: 'Samsung' }),
+      makeAutoObservable(this)
   }
   setTypes(type: IType) {
     this._types.push(type)
@@ -68,6 +77,9 @@ export default class DeviceStore {
   setSelectedType(type: IType) {
     this._selectedType = type
   }
+  setSelectedBrand(brand: IBrand) {
+    this._selectedBrand = brand
+  }
 
   get types() {
     return this._types
@@ -80,5 +92,8 @@ export default class DeviceStore {
   }
   get selectedType() {
     return this._selectedType
+  }
+  get selectedBrand() {
+    return this._selectedBrand
   }
 }
