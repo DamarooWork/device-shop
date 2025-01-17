@@ -4,10 +4,25 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { Button } from '@mui/material'
 import { TextField } from '@mui/material'
+import { login, registration } from '../http/userAPI'
+import { useLocation } from 'react-router-dom'
+import { LOGIN_ROUTE } from '../utils/consts'
 
 export default function Auth() {
   const [showPassword, setShowPassword] = useState(false)
   const theme = useTheme()
+  const location = useLocation()
+  const isLogin = location.pathname === LOGIN_ROUTE
+  const click = async (email: string, password: string) => {
+    console.log(email, password)
+
+    if (isLogin) {
+      const response = await login(email, password)
+    } else {
+      const response = await registration(email, password)
+      console.log(response)
+    }
+  }
 
   const validationSchema = yup.object({
     email: yup
@@ -27,7 +42,7 @@ export default function Auth() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      click(values.email, values.password)
     },
   })
 
