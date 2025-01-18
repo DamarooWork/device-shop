@@ -27,8 +27,9 @@ export default observer(function Auth() {
       } else {
         data = await registration(email, password)
       }
-      user.setUser()
+      user.setUser(true)
       user.setIsAuth(true)
+
       navigate(SHOP_ROUTE)
     } catch (e: any) {
       alert(e.response.data.message)

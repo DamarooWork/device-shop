@@ -1,0 +1,29 @@
+import { useContext, useEffect, useState } from 'react'
+import { Context } from '../App'
+import { observer } from 'mobx-react-lite'
+import {
+  Pagination,
+  PaginationItem,
+  PaginationRenderItemParams,
+} from '@mui/material'
+
+export default observer(function Pages() {
+  const { device } = useContext(Context)
+  const pageCount = Math.ceil(device.totalCount / device.limit)
+
+  const handleChange = (event: PaginationRenderItemParams, page: number) => {
+    device.setPage(page)
+  }
+  return (
+    <Pagination
+      className="flex justify-center items-center mt-12"
+      count={pageCount}
+      page={device.page}
+      //@ts-ignore
+      onChange={handleChange}
+      // renderItem={(item: any) => (
+      //   <PaginationItem key={item} selected={device.page === item} {...item} />
+      // )}
+    />
+  )
+})

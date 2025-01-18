@@ -26,9 +26,15 @@ interface IDevice {
   price: number
   rating: number
   img: string
+  info: IDescription[]
 }
 interface IDescription {
   id: number
+  title: string
+  description: string
+}
+interface IFormDescription {
+  id: number;
   title: string
   description: string
 }
@@ -38,5 +44,11 @@ interface IFormAddDevice {
   deviceName: string
   devicePrice: number
   img: File
-  info: IDescription[]
+  info: IFormDescription[]
+}
+interface IFormAddType {
+  name: string
+}
+interface IFormAddBrand {
+  name: string
 }

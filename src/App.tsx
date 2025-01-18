@@ -9,12 +9,11 @@ import { check } from './http/userAPI.tsx'
 export const Context = createContext<any>({})
 export default observer(function App() {
   const { user } = useContext(Context)
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     check()
-      .then(() => {
-        user.setUser(true)
+      .then((data) => {
+        user.setUser(data)
         user.setIsAuth(true)
       })
       .finally(() => setLoading(false))

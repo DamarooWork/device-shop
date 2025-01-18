@@ -6,79 +6,45 @@ export default class DeviceStore {
   _devices: IDevice[]
   _selectedType: IType
   _selectedBrand: IBrand
+  _page: number
+  _totalCount: number
+  _limit: number
   constructor() {
-    ;(this._types = [
-      { id: 1, name: 'Холодильники' },
-      { id: 2, name: 'Телефоны' },
-      { id: 3, name: 'Ноутбуки' },
-      { id: 4, name: 'Телевизоры' },
-    ]),
-      (this._brands = [
-        { id: 1, name: 'Samsung' },
-        { id: 2, name: 'Apple' },
-        { id: 3, name: 'Lenovo' },
-        { id: 4, name: 'Asus' },
-        { id: 5, name: 'MSI' },
-        { id: 6, name: 'ACER' },
-        { id: 7, name: 'HTC' },
-        { id: 8, name: 'HUAWEI' },
-        { id: 9, name: 'NOKIA' },
-      ]),
-      (this._devices = [
-        {
-          id: 1,
-          name: 'Iphone 12 pro',
-          price: 25000,
-          rating: 1,
-          img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-        },
-        {
-          id: 2,
-          name: 'Iphone 13 pro',
-          price: 26000,
-          rating: 2,
-          img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-        },
-        {
-          id: 3,
-          name: 'Iphone 14 pro',
-          price: 27000,
-          rating: 3,
-          img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-        },
-        {
-          id: 4,
-          name: 'Iphone 15 pro',
-          price: 28000,
-          rating: 4,
-          img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-        },
-        {
-          id: 5,
-          name: 'Iphone 16 pro',
-          price: 29000,
-          rating: 5,
-          img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-        },
-      ]),
-      (this._selectedType = { id: 1, name: 'Холодильники' }),
-      (this._selectedBrand = { id: 1, name: 'Samsung' }),
-      makeAutoObservable(this)
+    this._types = []
+    this._brands = []
+    this._devices = []
+    this._selectedType = { id: 1, name: '' }
+    this._selectedBrand = { id: 1, name: '' }
+    this._page = 1
+    this._totalCount = 0
+    this._limit = 3
+    makeAutoObservable(this)
   }
-  setTypes(type: IType) {
-    this._types.push(type)
+  setTypes(types: IType[]) {
+    this._types = types
   }
-  setBrands(brand: IBrand) {
-    this._brands.push(brand)
+  setBrands(brands: IBrand[]) {
+    this._brands = brands
   }
-  setDevices(device: IDevice) {
-    this._devices.push(device)
+  setDevices(devices: IDevice[]) {
+    this._devices = devices
   }
   setSelectedType(type: IType) {
+    this._page = 1
     this._selectedType = type
   }
   setSelectedBrand(brand: IBrand) {
+    this._page = 1
     this._selectedBrand = brand
+  }
+  setPage(page: number) {
+    this._page = page
+  }
+  setTotalCount(totalCount: number) {
+    this._totalCount = totalCount
+  }
+  setLimit(limit: number) {
+    this._limit = limit
   }
 
   get types() {
@@ -95,5 +61,14 @@ export default class DeviceStore {
   }
   get selectedBrand() {
     return this._selectedBrand
+  }
+  get page() {
+    return this._page
+  }
+  get totalCount() {
+    return this._totalCount
+  }
+  get limit() {
+    return this._limit
   }
 }

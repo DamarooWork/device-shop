@@ -1,25 +1,34 @@
 import { $authHost, $host } from './index'
-import { jwtDecode } from 'jwt-decode'
 
-export const createType = async (email: string, password: string) => {
-  const { data } = await $host.post('api/user/registration', {
-    email,
-    password,
-    role: 'ADMIN',
-  })
-  localStorage.setItem('token', data.token)
-  return jwtDecode(data.token)
+export const createType = async (type: IFormAddType) => {
+  const { data } = await $authHost.post('api/type', type)
+  return data
 }
-export const fetchTypes = async (email: string, password: string) => {
-  const { data } = await $host.post('api/user/login', {
-    email,
-    password,
-  })
-  localStorage.setItem('token', data.token)
-  return jwtDecode(data.token)
+export const fetchTypes = async () => {
+  const { data } = await $host.get('api/type')
+  return data
 }
-export const check = async () => {
-  const { data } = await $authHost.get('api/user/auth')
-  localStorage.setItem('token', data.token)
-  return jwtDecode(data.token)
+
+export const createBrand = async (brand: IFormAddBrand) => {
+  const { data } = await $authHost.post('api/brand', brand)
+  return data
+}
+export const fetchBrands = async () => {
+  const { data } = await $host.get('api/brand')
+  return data
+}
+
+export const createDevice = async (device: FormData) => {
+  const { data } = await $authHost.post('api/device', device)
+  return data
+}
+export const fetchDevices = async (typeId: number, brandId: number, page: number, limit=5) => {
+  const { data } = await $host.get('api/device', {params: {
+    typeId, brandId, page, limit
+  }})
+  return data
+}
+export const fetchDevice = async (id: string | undefined) => {
+  const { data } = await $host.get(`api/device/${id}`)
+  return data
 }

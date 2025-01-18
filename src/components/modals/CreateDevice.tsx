@@ -1,7 +1,8 @@
-import { Button, InputLabel, MenuItem, Modal, Select } from '@mui/material'
-import { useContext, useState } from 'react'
+import { Button, Modal } from '@mui/material'
+import { useContext, useEffect, useState } from 'react'
 import { Context } from '../../App'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
+import { createDevice, fetchBrands, fetchTypes } from '../../http/deviceAPI'
 
 export default function CreateDevice({
   open,
@@ -10,25 +11,44 @@ export default function CreateDevice({
   open: boolean
   close: () => void
 }) {
-  const [info, setInfo] = useState<IDescription[]>([])
   const { device } = useContext(Context)
+  useEffect(() => {
+    fetchTypes().then((data) => device.setTypes(data))
+    fetchBrands().then((data) => device.setBrands(data))
+  }, [])
   const {
     register,
     handleSubmit,
+    reset,
+    control,
     formState: { errors },
-  } = useForm<IFormAddDevice>()
+  } = useForm<IFormAddDevice>({
+    defaultValues: {
+      info: [{ title: '', description: '' }],
+    },
+  })
   const onSubmit: SubmitHandler<IFormAddDevice> = (data) => {
-    console.log(data)
-    close()
+    const formData = new FormData()
+    formData.append('name', data.deviceName)
+    formData.append('price', `${data.devicePrice}`)
+    formData.append('img', data.img)
+    formData.append('brandId', `${data.brand.id}`)
+    formData.append('typeId', `${data.type.id}`)
+    formData.append(
+      'info',
+      JSON.stringify(data.info.forEach((e, i) => (e.id = i++)))
+    )
+    console.log(formData)
+    createDevice(formData)
+      .then(() => reset())
+      .then(() => close())
+      .catch((e) => console.log(e))
   }
-  const addInfo = () => {
-    setInfo([...info, { title: '', description: '', id: +Date.now() }])
-  }
-  const removeInfo = (id: number) => {
-    console.log(id)
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'info',
+  })
 
-    setInfo(info.filter((i) => i.id !== id))
-  }
   return (
     <Modal className="" open={open} onClose={close}>
       <section
@@ -133,7 +153,7 @@ export default function CreateDevice({
           </label>
           <input
             type="file"
-            className=" mb-8 block w-full text-sm
+            className=" mb-4 block w-full text-sm
              text-gray-900 border border-gray-300 rounded-lg cursor-pointer
               bg-gray-50 dark:text-gray-400 focus:outline-none
                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -147,13 +167,18 @@ export default function CreateDevice({
             </p>
           )}
 
-          <Button onClick={() => addInfo()} variant="outlined" color="success">
-            Добавить новое свойство
-          </Button>
-          <section className="flex flex-col gap-2 mt-6">
-            {info.map((i, index) => {
+          {fields.length ? (
+            <label
+              className=" block mb-2 text-sm
+          font-medium text-gray-900 dark:text-white"
+            >
+              Свойства
+            </label>
+          ) : null}
+          <ul className="flex flex-col gap-4 mb-4 ">
+            {fields.map((item, index) => {
               return (
-                <section key={index} className="flex  gap-2">
+                <li className="flex flex-row gap-2" key={item.id}>
                   <input
                     type="text"
                     className="basis-1/3 bg-gray-50 border border-gray-300
@@ -162,8 +187,9 @@ export default function CreateDevice({
              dark:border-gray-600 dark:placeholder-gray-400
               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Введите название свойства"
-                    {...register('info')}
+                    {...register(`info.${index}.title`, { required: true })}
                   />
+
                   <input
                     type="text"
                     className="basis-1/3 bg-gray-50 border border-gray-300
@@ -172,21 +198,31 @@ export default function CreateDevice({
              dark:border-gray-600 dark:placeholder-gray-400
               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Введите описание свойства"
-                    {...register('info')}
+                    {...register(`info.${index}.description`)}
                   />
+
                   <Button
+                    onClick={() => remove(index)}
                     className="basis-1/3"
                     style={{ padding: '8px' }}
-                    onClick={() => removeInfo(i.id)}
                     variant="outlined"
                     color="error"
                   >
                     Удалить
                   </Button>
-                </section>
+                </li>
               )
             })}
-          </section>
+          </ul>
+          <Button
+            onClick={() => {
+              append({ id: 1, title: '', description: '' })
+            }}
+            variant="outlined"
+            color="success"
+          >
+            Добавить новое свойство
+          </Button>
           <footer className="flex gap-4 justify-end mt-4">
             <Button variant="outlined" color="success" type="submit">
               Добавить

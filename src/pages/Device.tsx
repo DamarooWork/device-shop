@@ -1,56 +1,24 @@
 import { Button, Card, CardContent, IconButton } from '@mui/material'
 import starIcon from '../assets/star.png'
+import { useEffect, useState } from 'react'
+import { fetchDevice } from '../http/deviceAPI'
+import { useParams } from 'react-router'
+import { observer } from 'mobx-react-lite'
 
-export default function DevicePage() {
-  const device: IDevice = {
+export default observer(function DevicePage() {
+  let { id } = useParams()
+  const [device, setDevice] = useState<IDevice>({
     id: 1,
-    name: 'Iphone 12 pro',
-    price: 25000,
-    rating: 1,
-    img: 'https://twigo.ru/center/iblock/5dc/4d51489125b1f5cfea6176690e41f202_2.jpg',
-  }
-  const description: IDescription[] = [
-    {
-      id: 1,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 2,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 3,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 4,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 5,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 6,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 7,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-    {
-      id: 8,
-      title: 'Операвная память',
-      description: '5 гб',
-    },
-  ]
+    name: '',
+    price: 0,
+    rating: 0,
+    img: '',
+    info: [],
+  })
+
+  useEffect(() => {
+    fetchDevice(id).then((data) => setDevice(data))
+  }, [])
 
   return (
     <section className="flex flex-col gap-10">
@@ -58,7 +26,7 @@ export default function DevicePage() {
         <div className="flex flex-col flex-[4]">
           <img
             className="rounded-3xl max-w-[300px] w-full h-auto"
-            src={device.img}
+            src={import.meta.env.VITE_API_URL + device.img}
             alt={device.name}
           />
         </div>
@@ -73,7 +41,7 @@ export default function DevicePage() {
               />
               <p
                 className="text-black  text-6xl
-            absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+          absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
               >
                 {device.rating}
               </p>
@@ -94,16 +62,16 @@ export default function DevicePage() {
 
       <div className="flex flex-col gap-2 mb-10">
         <h2 className="text-5xl mb-2">Характеристики</h2>
-        {description.map((info, i) => {
+        {device.info.map((info, i) => {
           return (
             <div
               key={info.id}
               className={`flex
-               gap-2 text-3xl p-4 rounded-xl ${
-                 i % 2 === 0
-                   ? 'bg-gray-300 dark:bg-gray-800'
-                   : 'bg-gray-100 dark:bg-gray-900'
-               }`}
+             gap-2 text-3xl p-4 rounded-xl ${
+               i % 2 === 0
+                 ? 'bg-gray-300 dark:bg-gray-800'
+                 : 'bg-gray-100 dark:bg-gray-900'
+             }`}
             >
               <p>
                 {info.title}: {info.description}
@@ -114,4 +82,4 @@ export default function DevicePage() {
       </div>
     </section>
   )
-}
+})

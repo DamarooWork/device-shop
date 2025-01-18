@@ -5,6 +5,7 @@ import { Context } from '../App'
 
 export default observer(function TypeBar() {
   const { device } = useContext(Context)
+
   return (
     <section>
       <nav aria-label="secondary mailbox folders">

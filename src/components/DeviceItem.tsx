@@ -13,8 +13,8 @@ export default function DeviceItem({ device }: { device: IDevice }) {
     >
       <CardContent>
         <img
-          className="w-full max-h-40 object-contain mb-4"
-          src={device.img}
+          className="w-full h-auto object-contain mb-4"
+          src={import.meta.env.VITE_API_URL + device.img}
           alt={device.name}
         />
         <footer className="text-gray-400 flex flex-row justify-between items-center">

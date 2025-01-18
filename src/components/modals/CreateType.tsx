@@ -1,6 +1,7 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
-import { useFormik } from 'formik'
-import * as yup from 'yup'
+import { Button, Modal } from '@mui/material'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { createType } from '../../http/deviceAPI'
+
 export default function CreateType({
   open,
   close,
@@ -8,91 +9,62 @@ export default function CreateType({
   open: boolean
   close: () => void
 }) {
-  function handleClose() {
-    console.log('type created!')
-    close()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IFormAddType>()
+  const onSubmit: SubmitHandler<IFormAddType> = (data) => {
+    createType(data)
+      .then(() => reset())
+      .then(() => close())
   }
-  const validationSchema = yup.object({
-    email: yup
-      .string()
-      .email('Enter a valid email')
-      .required('Email is required'),
-    password: yup
-      .string()
-      .min(8, 'Password should be of minimum 8 characters length')
-      .required('Password is required'),
-  })
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    },
-  })
   return (
-    <Modal
-      className=""
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          width: 400,
-          color: 'white',
-          outline: 0,
-          marginTop: '50vh',
-          marginLeft: '50vw',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: '#1f2937',
-          padding: '20px',
-          borderRadius: '20px',
-        }}
+    <Modal className="" open={open} onClose={close}>
+      <section
+        className=" text-white outline-1 mt-[50vh] ml-[50vw]
+       translate-x-[-50%] translate-y-[-50%] bg-slate-300 dark:bg-slate-700 p-[20px] rounded-2xl"
       >
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Добавить тип
-        </Typography>
-        <Typography
-          className="flex flex-col gap-5"
-          id="modal-modal-description"
-          onSubmit={formik.handleSubmit}
-          component="form"
-          sx={{ mt: 2 }}
+        <h2 className="text-center text-3xl mb-8">Добавить тип</h2>
+        <form
+          className="flex flex-col gap-1 "
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            fullWidth
-            id="password"
-            name="password"
-            label="Password"
+          <label
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            id="brand"
+          >
+            Название типа
+          </label>
+          <input
             type="text"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            className=" bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Название"
+            {...register('name', { required: true })}
           />
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Submit
-          </Button>
-        </Typography>
-      </Box>
+          {/* errors will return when field validation fails  */}
+          {errors.name && (
+            <p className=" text-sm font-medium text-red-600 dark:text-red-500">
+              Введите название
+            </p>
+          )}
+
+          <footer className="flex gap-4 justify-end mt-4">
+            <Button variant="outlined" color="success" type="submit">
+              Добавить
+            </Button>
+            <Button onClick={() => close()} variant="outlined" color="error">
+              Закрыть
+            </Button>
+          </footer>
+        </form>
+      </section>
     </Modal>
   )
 }

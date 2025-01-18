@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { authRoutes, publicRoutes } from '../routes'
 import { SHOP_ROUTE } from '../utils/consts'
@@ -6,7 +6,7 @@ import { Context } from '../App'
 
 export default function AppRouter() {
   const { user } = useContext(Context)
-
+  useEffect(() => {}, [user.isAuth])
   return (
     <Routes>
       {user.isAuth
