@@ -1,26 +1,37 @@
 import { useTheme } from '@mui/material/styles'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { Button } from '@mui/material'
+import { Button, InputAdornment } from '@mui/material'
 import { TextField } from '@mui/material'
 import { login, registration } from '../http/userAPI'
-import { useLocation } from 'react-router-dom'
-import { LOGIN_ROUTE } from '../utils/consts'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts'
+import { observer } from 'mobx-react-lite'
+import { Context } from '../App'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-export default function Auth() {
-  const [showPassword, setShowPassword] = useState(false)
+export default observer(function Auth() {
+  const { user } = useContext(Context)
+  const [showPassword, setShowPassword] = useState(true)
   const theme = useTheme()
   const location = useLocation()
+  const navigate = useNavigate()
   const isLogin = location.pathname === LOGIN_ROUTE
   const click = async (email: string, password: string) => {
-    console.log(email, password)
-
-    if (isLogin) {
-      const response = await login(email, password)
-    } else {
-      const response = await registration(email, password)
-      console.log(response)
+    try {
+      let data
+      if (isLogin) {
+        data = await login(email, password)
+      } else {
+        data = await registration(email, password)
+      }
+      user.setUser()
+      user.setIsAuth(true)
+      navigate(SHOP_ROUTE)
+    } catch (e: any) {
+      alert(e.response.data.message)
     }
   }
 
@@ -29,10 +40,7 @@ export default function Auth() {
       .string()
       .email('Enter a valid email')
       .required('Email is required'),
-    password: yup
-      .string()
-      .min(8, 'Password should be of minimum 8 characters length')
-      .required('Password is required'),
+    password: yup.string().required('Password is required'),
   })
 
   const formik = useFormik({
@@ -51,7 +59,9 @@ export default function Auth() {
       className="flex flex-col items-center 
     justify-center mt-[30vh] "
     >
-      <h1>Signup</h1>
+      <h1 className="text-4xl mb-8">
+        {isLogin ? 'Вход в аккаунт' : 'Регистрация'}
+      </h1>
       <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -64,22 +74,59 @@ export default function Auth() {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
+
         <TextField
           fullWidth
           id="password"
           name="password"
           label="Password"
-          type="password"
+          type={showPassword ? 'password' : 'text'}
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  position="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         <Button color="primary" variant="contained" fullWidth type="submit">
           Submit
         </Button>
       </form>
+      <section className="flex  mt-4 text-lg gap-4 items-center">
+        {isLogin ? (
+          <>
+            <p>Нет аккаунта?</p>
+            <p
+              onClick={() => navigate(REGISTRATION_ROUTE)}
+              className="text-blue-400 cursor-pointer text-xl"
+            >
+              Создайте!
+            </p>
+          </>
+        ) : (
+          <>
+            <p>Есть аккаунт?</p>
+            <p
+              onClick={() => navigate(LOGIN_ROUTE)}
+              className="text-blue-400 cursor-pointer text-xl"
+            >
+              Войти!
+            </p>
+          </>
+        )}
+      </section>
     </main>
   )
-}
+})

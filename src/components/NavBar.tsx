@@ -8,7 +8,12 @@ import { Context } from '../App'
 import { Container, useColorScheme } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
+import {
+  ADMIN_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+  SHOP_ROUTE,
+} from '../utils/consts'
 import { ThemeContext } from '../hooks/ThemeContext'
 export default observer(function NavBar() {
   const { mode, setMode } = useColorScheme()
@@ -30,6 +35,13 @@ export default observer(function NavBar() {
           window.matchMedia('(prefers-color-scheme: dark)').matches)
     )
   }
+
+  const logOut = () => {
+    user.setUser({})
+    user.setIsAuth(false)
+    localStorage.removeItem('token')
+    navigate(LOGIN_ROUTE)
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -45,21 +57,15 @@ export default observer(function NavBar() {
             <nav>
               {user.isAuth ? (
                 <>
-                  <Button
-                    color="inherit"
-                    onClick={() => navigate(`${ADMIN_ROUTE}`)}
-                  >
+                  <Button color="inherit" onClick={() => navigate(ADMIN_ROUTE)}>
                     Админ панель
                   </Button>
-                  <Button
-                    color="inherit"
-                    onClick={() => navigate(`${LOGIN_ROUTE}`)}
-                  >
+                  <Button color="inherit" onClick={() => logOut()}>
                     Выйти
                   </Button>
                 </>
               ) : (
-                <Button color="inherit" onClick={() => user.setIsAuth(true)}>
+                <Button color="inherit" onClick={() => navigate(LOGIN_ROUTE)}>
                   Авторизация
                 </Button>
               )}

@@ -7,8 +7,8 @@ export default observer(function DeviceList() {
   const { device } = useContext(Context)
   return (
     <section className="grid grid-flow-row grid-cols-4 gap-5">
-      {device.devices.map((dev: IDevice) => {
-        return <DeviceItem key={device.id} device={dev} />
+      {device.devices.map((dev: IDevice, i: number) => {
+        return <DeviceItem key={i} device={dev} />
       })}
     </section>
   )
