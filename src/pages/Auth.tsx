@@ -8,7 +8,7 @@ import { login, registration } from '../http/userAPI'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import { observer } from 'mobx-react-lite'
-import { Context } from '../main'
+import { Context } from '../App'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 

@@ -3,7 +3,7 @@ import BrandBar from '../components/BrandBar'
 import DeviceList from '../components/DeviceList'
 import { observer } from 'mobx-react-lite'
 import { useContext, useEffect } from 'react'
-import { Context } from '../main'
+import { Context } from '../App'
 import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceAPI'
 import Pages from '../components/Pages'
 

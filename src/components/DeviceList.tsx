@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import { Context } from '../main'
+import { Context } from '../App'
 import DeviceItem from './DeviceItem'
 
 export default observer(function DeviceList() {

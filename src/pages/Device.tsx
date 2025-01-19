@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, IconButton } from '@mui/material'
+import { Button, Card, CardContent } from '@mui/material'
 import starIcon from '../assets/star.png'
 import { useEffect, useState } from 'react'
 import { fetchDevice } from '../http/deviceAPI'

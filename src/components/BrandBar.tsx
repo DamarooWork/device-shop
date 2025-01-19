@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import { Context } from '../main'
+import { Context } from '../App'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 

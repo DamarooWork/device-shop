@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import { Context } from '../main'
+import { Context } from '../App'
 
 export default observer(function TypeBar() {
   const { device } = useContext(Context)
