@@ -4,16 +4,11 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { Context } from '../App'
+import { Context } from '../main'
 import { Container, useColorScheme } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { NavLink, useNavigate } from 'react-router-dom'
-import {
-  ADMIN_ROUTE,
-  LOGIN_ROUTE,
-  REGISTRATION_ROUTE,
-  SHOP_ROUTE,
-} from '../utils/consts'
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import { ThemeContext } from '../hooks/ThemeContext'
 export default observer(function NavBar() {
   const { mode, setMode } = useColorScheme()

@@ -1,6 +1,6 @@
 import { Button, Modal } from '@mui/material'
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../../App'
+import { useContext, useEffect } from 'react'
+import { Context } from '../../main'
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
 import { createDevice, fetchBrands, fetchTypes } from '../../http/deviceAPI'
 

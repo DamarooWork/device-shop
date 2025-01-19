@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { authRoutes, publicRoutes } from '../routes'
 import { SHOP_ROUTE } from '../utils/consts'
-import { Context } from '../App'
+import { Context } from '../main'
 
 export default function AppRouter() {
   const { user } = useContext(Context)

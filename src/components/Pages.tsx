@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../App'
+import { useContext } from 'react'
+import { Context } from '../main'
 import { observer } from 'mobx-react-lite'
 import {
   Pagination,
-  PaginationItem,
   PaginationRenderItemParams,
 } from '@mui/material'
 
@@ -21,9 +20,7 @@ export default observer(function Pages() {
       page={device.page}
       //@ts-ignore
       onChange={handleChange}
-      // renderItem={(item: any) => (
-      //   <PaginationItem key={item} selected={device.page === item} {...item} />
-      // )}
+      color="primary"
     />
   )
 })
