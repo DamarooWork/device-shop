@@ -25,7 +25,6 @@ export default observer(function App() {
     )
   }
   return (
-   
     <Container>
       <NavBar />
       <AppRouter />

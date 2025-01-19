@@ -27,8 +27,10 @@ export default observer(function Auth() {
       } else {
         data = await registration(email, password)
       }
-      user.setUser(true)
+      user.setUser(data)
       user.setIsAuth(true)
+      //@ts-ignore
+      localStorage.setItem('role', data.role)
 
       navigate(SHOP_ROUTE)
     } catch (e: any) {
