@@ -22,18 +22,29 @@ export default function CreateBrand({
   }
 
   return (
-    <Modal className="" open={open} onClose={close}>
+    <Modal
+      className="intersect:motion-preset-blur-down"
+      open={open}
+      onClose={close}
+    >
       <section
-        className=" text-white outline-1 mt-[50vh] ml-[50vw]
+        className="max-w-[700px] text-white outline-1 mt-[50vh] ml-[50vw]
        translate-x-[-50%] translate-y-[-50%] bg-slate-300 dark:bg-slate-700 p-[20px] rounded-2xl"
       >
-        <h2 className="text-center text-3xl mb-8">Добавить бренд</h2>
+        <h2
+          className="text-center text-3xl mb-8 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-100"
+        >
+          Добавить бренд
+        </h2>
         <form
           className="flex flex-col gap-1 "
           onSubmit={handleSubmit(onSubmit)}
-        >
+        >       
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium
+             text-gray-900 dark:text-white intersect-once intersect:motion-preset-blur-down 
+            motion-delay-200"
             id="brand"
           >
             Название бренда
@@ -44,7 +55,8 @@ export default function CreateBrand({
            text-gray-900 text-sm rounded-lg focus:ring-blue-500
             focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
              dark:border-gray-600 dark:placeholder-gray-400
-              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-200"
             placeholder="Название"
             {...register('name', { required: true })}
           />
@@ -55,7 +67,11 @@ export default function CreateBrand({
             </p>
           )}
 
-          <footer className="flex gap-4 justify-end mt-4">
+          <footer
+            className="flex gap-4 justify-end mt-4 
+          intersect-once intersect:motion-preset-blur-down 
+            motion-delay-300"
+          >
             <Button variant="outlined" color="success" type="submit">
               Добавить
             </Button>

@@ -1,6 +1,6 @@
 import { Button, Modal } from '@mui/material'
 import { useContext, useEffect } from 'react'
-import { Context } from '../../App'
+import { Context } from '../../main'
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
 import { createDevice, fetchBrands, fetchTypes } from '../../http/deviceAPI'
 
@@ -38,6 +38,7 @@ export default function CreateDevice({
     createDevice(formData)
       .then(() => reset())
       .then(() => close())
+      .then(() => alert(data.deviceName + ' добавлен!'))
       .catch((e) => console.log(e.message))
   }
   const { fields, append, remove } = useFieldArray({
@@ -46,18 +47,34 @@ export default function CreateDevice({
   })
 
   return (
-    <Modal className="" open={open} onClose={close}>
+    <Modal
+      className="intersect:motion-preset-blur-down"
+      open={open}
+      onClose={close}
+    >
       <section
         className=" text-white outline-1 mt-[50vh] ml-[50vw]
-       translate-x-[-50%] translate-y-[-50%] bg-slate-300 dark:bg-slate-700 p-[20px] rounded-2xl"
+       translate-x-[-50%] translate-y-[-50%]
+       max-w-[700px]
+        bg-slate-300 dark:bg-slate-700 p-[20px]
+         rounded-2xl  max-h-[90vh] scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+        scrollbar scrollbar-thumb-slate-500
+         scrollbar-track-slate-300 overflow-y-auto "
       >
-        <h2 className="text-center text-3xl mb-8">Добавить устройство</h2>
+        <h2
+          className="text-center text-3xl mb-8 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-100"
+        >
+          Добавить устройство
+        </h2>
         <form
           className="flex flex-col gap-1 "
           onSubmit={handleSubmit(onSubmit)}
         >
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900
+             dark:text-white intersect-once intersect:motion-preset-blur-down 
+            motion-delay-200"
             id="type"
           >
             Бренд устройства
@@ -68,7 +85,8 @@ export default function CreateDevice({
              text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block 
           w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
            dark:placeholder-gray-400 dark:text-white
-            dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+            dark:focus:ring-blue-500 dark:focus:border-blue-500 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-200"
             {...register('brand')}
           >
             {device.brands.map((brand: IBrand) => {
@@ -85,13 +103,18 @@ export default function CreateDevice({
           </select>
 
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 
+            dark:text-white intersect-once intersect:motion-preset-blur-down 
+            motion-delay-300"
             id="brand"
           >
             Тип устройства
           </label>
           <select
-            className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="cursor-pointer bg-gray-50 border border-gray-300
+             text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+            dark:focus:border-blue-500 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-300"
             {...register('type')}
           >
             {device.types.map((dev: IDevice) => {
@@ -102,7 +125,14 @@ export default function CreateDevice({
               )
             })}
           </select>
-          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label
+            className="mt-4 block mb-2 text-sm font-medium
+           text-gray-900 dark:text-white intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `400ms` }}
+          >
             Название
           </label>
           <input
@@ -111,7 +141,11 @@ export default function CreateDevice({
            text-gray-900 text-sm rounded-lg focus:ring-blue-500
             focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
              dark:border-gray-600 dark:placeholder-gray-400
-              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `400ms` }}
             placeholder="Название"
             {...register('deviceName', { required: true })}
           />
@@ -121,7 +155,14 @@ export default function CreateDevice({
               Введите название
             </p>
           )}
-          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label
+            className="mt-4 block mb-2 text-sm font-medium
+           text-gray-900 dark:text-white  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `500ms` }}
+          >
             Цена, р.
           </label>
           <input
@@ -130,7 +171,11 @@ export default function CreateDevice({
            text-gray-900 text-sm rounded-lg focus:ring-blue-500
             focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
              dark:border-gray-600 dark:placeholder-gray-400
-              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `500ms` }}
             placeholder="Цена"
             {...register('devicePrice', { required: true })}
           />
@@ -140,7 +185,14 @@ export default function CreateDevice({
               Введите цену
             </p>
           )}
-          <label className="mt-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <label
+            className="mt-4 block mb-2 text-sm font-medium
+           text-gray-900 dark:text-white  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `600ms` }}
+          >
             Фото
           </label>
           <input
@@ -148,7 +200,12 @@ export default function CreateDevice({
             className=" mb-4 block w-full text-sm
              text-gray-900 border border-gray-300 rounded-lg cursor-pointer
               bg-gray-50 dark:text-gray-400 focus:outline-none
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+               dark:bg-gray-700 dark:border-gray-600
+                dark:placeholder-gray-400  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `600ms` }}
             placeholder="Фото"
             {...register('img', { required: true })}
           />
@@ -162,15 +219,33 @@ export default function CreateDevice({
           {fields.length ? (
             <label
               className=" block mb-2 text-sm
-          font-medium text-gray-900 dark:text-white"
+          font-medium text-gray-900 dark:text-white  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+              //@ts-ignore
+              style={{ '--motion-delay': `700ms` }}
             >
               Свойства
             </label>
           ) : null}
-          <ul className="flex flex-col gap-4 mb-4 ">
+          <ul
+            className="flex flex-col gap-4 mb-4 
+           max-h-[200px] scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+           scrollbar scrollbar-thumb-slate-500
+            scrollbar-track-slate-300 overflow-y-auto intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+            //@ts-ignore
+            style={{ '--motion-delay': `700ms` }}
+          >
             {fields.map((item, index) => {
               return (
-                <li className="flex flex-row gap-2" key={item.id}>
+                <li
+                  className="flex flex-row gap-4  intersect-once 
+          intersect:motion-preset-blur-down 
+            "
+                  key={item.id}
+                >
                   <input
                     type="text"
                     className="basis-1/3 bg-gray-50 border border-gray-300
@@ -207,6 +282,10 @@ export default function CreateDevice({
             })}
           </ul>
           <Button
+            className="intersect-once 
+          intersect:motion-preset-blur-down"
+            //@ts-ignore
+            style={{ '--motion-delay': `800ms` }}
             onClick={() => {
               append({ id: 1, title: '', description: '' })
             }}
@@ -215,7 +294,12 @@ export default function CreateDevice({
           >
             Добавить новое свойство
           </Button>
-          <footer className="flex gap-4 justify-end mt-4">
+          <footer
+            className="flex gap-4 justify-end mt-4 intersect-once 
+          intersect:motion-preset-blur-down"
+            //@ts-ignore
+            style={{ '--motion-delay': `900ms` }}
+          >
             <Button variant="outlined" color="success" type="submit">
               Добавить
             </Button>

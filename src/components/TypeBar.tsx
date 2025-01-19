@@ -1,13 +1,13 @@
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import { Context } from '../App'
+import { Context } from '../main'
 
 export default observer(function TypeBar() {
   const { device } = useContext(Context)
 
   return (
-    <section>
+    <section className="motion-preset-blur-right  motion-duration-1000">
       <nav aria-label="secondary mailbox folders">
         <List className="">
           {device.types.map((type: IType) => {

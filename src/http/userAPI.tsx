@@ -8,6 +8,7 @@ export const registration = async (email: string, password: string) => {
     role: 'ADMIN',
   })
   localStorage.setItem('token', data.token)
+  localStorage.setItem('role', 'ADMIN')
   return jwtDecode(data.token)
 }
 export const login = async (email: string, password: string) => {
@@ -16,10 +17,12 @@ export const login = async (email: string, password: string) => {
     password,
   })
   localStorage.setItem('token', data.token)
+  localStorage.setItem('role', 'ADMIN')
   return jwtDecode(data.token)
 }
 export const check = async () => {
   const { data } = await $authHost.get('api/user/auth')
   localStorage.setItem('token', data.token)
+  localStorage.setItem('role', 'ADMIN')
   return jwtDecode(data.token)
 }

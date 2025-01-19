@@ -11,12 +11,12 @@ import {
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
 } from './utils/consts'
-
-export const authRoutes = [
+export const adminRoutes = [
   {
     path: ADMIN_ROUTE,
     Component: Admin,
-  },
+  },]
+export const authRoutes = [
   {
     path: BASKET_ROUTE,
     Component: Basket,

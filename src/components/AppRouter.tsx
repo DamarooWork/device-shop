@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
-import { authRoutes, publicRoutes } from '../routes'
+import { adminRoutes, authRoutes, publicRoutes } from '../routes'
 import { SHOP_ROUTE } from '../utils/consts'
-import { Context } from '../App'
+import { Context } from '../main'
 
 export default function AppRouter() {
   const { user } = useContext(Context)
@@ -11,6 +11,11 @@ export default function AppRouter() {
     <Routes>
       {user.isAuth
         ? authRoutes.map(({ path, Component }) => (
+            <Route key={path} path={path} Component={Component} />
+          ))
+        : null}
+      {localStorage.role === 'ADMIN'
+        ? adminRoutes.map(({ path, Component }) => (
             <Route key={path} path={path} Component={Component} />
           ))
         : null}

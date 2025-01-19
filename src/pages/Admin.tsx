@@ -22,6 +22,7 @@ export default function Admin() {
         close={() => setModalCreateDeviceOpen(false)}
       />
       <CreateType
+      
         open={isModalCreateTypeOpen}
         close={() => setModalCreateTypeOpen(false)}
       />
@@ -30,6 +31,8 @@ export default function Admin() {
     justify-center gap-5 mt-[30vh]"
       >
         <Button
+          className="intersect-once intersect:motion-preset-blur-down 
+        "
           size="large"
           variant="outlined"
           onClick={() => setModalCreateTypeOpen(true)}
@@ -38,6 +41,8 @@ export default function Admin() {
         </Button>
 
         <Button
+          className="intersect-once intersect:motion-preset-blur-down 
+        motion-delay-100"
           size="large"
           variant="outlined"
           onClick={() => setModalCreateBrandOpen(true)}
@@ -45,6 +50,8 @@ export default function Admin() {
           Добавить бренд
         </Button>
         <Button
+          className="intersect-once intersect:motion-preset-blur-down 
+        motion-delay-200"
           size="large"
           variant="outlined"
           onClick={() => setModalCreateDeviceOpen(true)}

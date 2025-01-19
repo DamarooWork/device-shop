@@ -23,19 +23,22 @@ export default observer(function DevicePage() {
   return (
     <section className="flex flex-col gap-10">
       <div className="flex gap-10">
-        <div className="flex flex-col flex-[4]">
+        <div className="flex flex-col flex-[4] intersect-once intersect:motion-preset-blur-down">
           <img
             className="rounded-3xl max-w-[300px] w-full h-auto"
             src={import.meta.env.VITE_API_URL + device.img}
             alt={device.name}
           />
         </div>
-        <div className=" flex flex-col flex-[4]">
+        <div
+          className=" flex flex-col flex-[4] intersect-once intersect:motion-preset-blur-down 
+        motion-delay-[100ms]"
+        >
           <header className="flex flex-col w-full h-full text-4xl">
             <h2 className="mb-4 font-bold">{device.name}</h2>
             <div className="flex w-full h-full  relative items-center justify-center">
               <img
-                className="w-[60%] h-[60%]  "
+                className="w-[60%] h-auto  "
                 src={starIcon}
                 alt="Star icon"
               />
@@ -48,7 +51,10 @@ export default observer(function DevicePage() {
             </div>
           </header>
         </div>
-        <div className="flex flex-col flex-[4]">
+        <div
+          className="flex flex-col flex-[4] intersect-once intersect:motion-preset-blur-down 
+        motion-delay-200"
+        >
           <Card className=" h-full  " variant="outlined">
             <CardContent className="h-full flex flex-col justify-around items-center">
               <h3 className="text-3xl">От {device.price} рублей</h3>
@@ -60,14 +66,30 @@ export default observer(function DevicePage() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 mb-10">
-        <h2 className="text-5xl mb-2">Характеристики</h2>
+      <div className="flex flex-col gap-2 mb-10 ">
+        <h2
+          className="text-5xl mb-2 intersect-once intersect:motion-preset-blur-down 
+        motion-delay-300"
+        >
+          Характеристики
+        </h2>
+        {device.info.length === 0 ? (
+          <p
+            //@ts-ignore
+            style={{ '--motion-delay': `300ms` }}
+            className="text-red-900 dark:text-red-500 text-2xl intersect-once intersect:motion-preset-blur-down "
+          >
+            Нет характеристик
+          </p>
+        ) : null}
         {device.info.map((info, i) => {
           return (
             <div
+              //@ts-ignore
+              style={{ '--motion-delay': `${i + 3}00ms` }}
               key={info.id}
               className={`flex
-             gap-2 text-3xl p-4 rounded-xl ${
+             gap-2 text-3xl p-4 rounded-xl intersect-once intersect:motion-preset-blur-down ${
                i % 2 === 0
                  ? 'bg-gray-300 dark:bg-gray-800'
                  : 'bg-gray-100 dark:bg-gray-900'

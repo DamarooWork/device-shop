@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { Context } from '../App'
+import { Context } from '../main'
 import { Container, useColorScheme } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -36,6 +36,7 @@ export default observer(function NavBar() {
     user.setUser({})
     user.setIsAuth(false)
     localStorage.removeItem('token')
+    localStorage.removeItem('role')
     navigate(LOGIN_ROUTE)
   }
   return (
@@ -44,7 +45,7 @@ export default observer(function NavBar() {
         <Container>
           <Toolbar>
             <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-              <NavLink to={SHOP_ROUTE}>DeviceShop</NavLink>
+              <NavLink to={SHOP_ROUTE}>DamarooShop</NavLink>
             </Typography>
 
             <Button onClick={() => handleThemeBtnClick()} color="inherit">
@@ -53,9 +54,14 @@ export default observer(function NavBar() {
             <nav>
               {user.isAuth ? (
                 <>
-                  <Button color="inherit" onClick={() => navigate(ADMIN_ROUTE)}>
-                    Админ панель
-                  </Button>
+                  {localStorage.role === 'ADMIN' ? (
+                    <Button
+                      color="inherit"
+                      onClick={() => navigate(ADMIN_ROUTE)}
+                    >
+                      Админ панель
+                    </Button>
+                  ) : null}
                   <Button color="inherit" onClick={() => logOut()}>
                     Выйти
                   </Button>

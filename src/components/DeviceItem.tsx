@@ -7,24 +7,26 @@ export default function DeviceItem({ device }: { device: IDevice }) {
 
   return (
     <Card
-      className="flex flex-col flex-wrap cursor-pointer"
+      style={{ transitionProperty: 'all', transitionDuration: '400ms' }}
+      className="flex flex-col flex-wrap cursor-pointer group
+       "
       onClick={() => navigate(`${DEVICE_ROUTE}/${device.id}`)}
       variant="outlined"
     >
-      <CardContent>
+      <CardContent className="will-change-transform duration-300 ease-in-out group-hover:scale-105">
         <img
-          className="w-full h-auto object-contain mb-4"
+          className="w-full h-auto object-contain mb-4 rounded-xl motion-preset-fade motion-duration-2000  "
           src={import.meta.env.VITE_API_URL + device.img}
           alt={device.name}
         />
-        <footer className="text-gray-400 flex flex-row justify-between items-center">
-          <h3>Sumsung....</h3>
+        <p className="text-xl text-gray-400 ">{device.price} р.</p>
+        <footer className=" flex flex-row justify-between items-center">
+          <h3 className="text-lg font-semibold">{device.name}</h3>
           <div className="flex items-center gap-1">
-            <img className="h-6 w-auto" src={starIcon} alt="Star icon" />
+            <img className="h-6 w-6" src={starIcon} alt="Star icon" />
             <p>{device.rating}</p>
           </div>
         </footer>
-        <h3>{device.name}</h3>
       </CardContent>
     </Card>
   )
