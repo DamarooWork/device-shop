@@ -43,7 +43,7 @@ interface IFormAddDevice {
   brand: IBrand
   deviceName: string
   devicePrice: number
-  img: File
+  img: FileList 
   info: IFormDescription[]
 }
 interface IFormAddType {

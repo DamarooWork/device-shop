@@ -31,18 +31,14 @@ export default function CreateDevice({
     const formData = new FormData()
     formData.append('name', data.deviceName)
     formData.append('price', `${data.devicePrice}`)
-    formData.append('img', data.img)
-    formData.append('brandId', `${data.brand.id}`)
-    formData.append('typeId', `${data.type.id}`)
-    formData.append(
-      'info',
-      JSON.stringify(data.info.forEach((e, i) => (e.id = i++)))
-    )
-    console.log(formData)
+    formData.append('img', data.img[0])
+    formData.append('brandId', `${data.brand}`)
+    formData.append('typeId', `${data.type}`)
+    formData.append('info', JSON.stringify(data.info))
     createDevice(formData)
       .then(() => reset())
       .then(() => close())
-      .catch((e) => console.log(e))
+      .catch((e) => console.log(e.message))
   }
   const { fields, append, remove } = useFieldArray({
     control,
@@ -80,7 +76,7 @@ export default function CreateDevice({
                 <option
                   className="cursor-pointer"
                   key={brand.id}
-                  value={brand.name}
+                  value={brand.id}
                 >
                   {brand.name}
                 </option>
@@ -100,11 +96,7 @@ export default function CreateDevice({
           >
             {device.types.map((dev: IDevice) => {
               return (
-                <option
-                  className="cursor-pointer"
-                  key={dev.id}
-                  value={dev.name}
-                >
+                <option className="cursor-pointer" key={dev.id} value={dev.id}>
                   {dev.name}
                 </option>
               )
