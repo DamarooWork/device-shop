@@ -104,7 +104,7 @@ export default observer(function Auth() {
           }}
         />
         <Button color="primary" variant="contained" fullWidth type="submit">
-          Submit
+          {isLogin ? 'Войти' : 'Создать аккаунт'}
         </Button>
       </form>
       <section className="flex  mt-4 text-lg gap-4 items-center">
@@ -115,17 +115,17 @@ export default observer(function Auth() {
               onClick={() => navigate(REGISTRATION_ROUTE)}
               className="text-blue-400 cursor-pointer text-xl"
             >
-              Создайте!
+              Зарегистрируйтесь!
             </p>
           </>
         ) : (
           <>
-            <p>Есть аккаунт?</p>
+            <p>Уже есть аккаунт?</p>
             <p
               onClick={() => navigate(LOGIN_ROUTE)}
               className="text-blue-400 cursor-pointer text-xl"
             >
-              Войти!
+              Войдите!
             </p>
           </>
         )}

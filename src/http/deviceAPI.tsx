@@ -22,10 +22,20 @@ export const createDevice = async (device: FormData) => {
   const { data } = await $authHost.post('api/device', device)
   return data
 }
-export const fetchDevices = async (typeId: number, brandId: number, page: number, limit=5) => {
-  const { data } = await $host.get('api/device', {params: {
-    typeId, brandId, page, limit
-  }})
+export const fetchDevices = async (
+  typeId: number,
+  brandId: number,
+  page: number,
+  limit = 5
+) => {
+  const { data } = await $host.get('api/device', {
+    params: {
+      typeId,
+      brandId,
+      page,
+      limit,
+    },
+  })
   return data
 }
 export const fetchDevice = async (id: string | undefined) => {

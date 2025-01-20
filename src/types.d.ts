@@ -27,6 +27,8 @@ interface IDevice {
   rating: number
   img: string
   info: IDescription[]
+  brandId: number
+  typeId: number
 }
 interface IDescription {
   id: number
@@ -51,4 +53,5 @@ interface IFormAddType {
 }
 interface IFormAddBrand {
   name: string
+  // typeId: number
 }

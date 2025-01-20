@@ -7,17 +7,19 @@ import { observer } from 'mobx-react-lite'
 
 export default observer(function DevicePage() {
   let { id } = useParams()
-  const [device, setDevice] = useState<IDevice>({
+  const [oneDevice, setOneDevice] = useState<IDevice>({
     id: 1,
     name: '',
     price: 0,
     rating: 0,
     img: '',
     info: [],
+    brandId: 0,
+    typeId: 0,
   })
 
   useEffect(() => {
-    fetchDevice(id).then((data) => setDevice(data))
+    fetchDevice(id).then((data) => setOneDevice(data))
   }, [])
 
   return (
@@ -26,16 +28,19 @@ export default observer(function DevicePage() {
         <div className="flex flex-col flex-[4] intersect-once intersect:motion-preset-blur-down">
           <img
             className="rounded-3xl max-w-[300px] w-full h-auto"
-            src={import.meta.env.VITE_API_URL + device.img}
-            alt={device.name}
+            src={import.meta.env.VITE_API_URL + oneDevice.img}
+            alt={oneDevice.name}
           />
         </div>
         <div
           className=" flex flex-col flex-[4] intersect-once intersect:motion-preset-blur-down 
         motion-delay-[100ms]"
         >
-          <header className="flex flex-col w-full h-full text-4xl">
-            <h2 className="mb-4 font-bold">{device.name}</h2>
+          <header className="flex flex-col w-full h-full ">
+            <div className=" text-2xl  text-center">
+              <h2 className="font-bold text-4xl">{oneDevice.name}</h2>
+            </div>
+
             <div className="flex w-full h-full  relative items-center justify-center">
               <img
                 className="w-[60%] h-auto  "
@@ -46,7 +51,7 @@ export default observer(function DevicePage() {
                 className="text-black  text-6xl
           absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
               >
-                {device.rating}
+                {oneDevice.rating}
               </p>
             </div>
           </header>
@@ -57,7 +62,7 @@ export default observer(function DevicePage() {
         >
           <Card className=" h-full  " variant="outlined">
             <CardContent className="h-full flex flex-col justify-around items-center">
-              <h3 className="text-3xl">От {device.price} рублей</h3>
+              <h3 className="text-3xl">От {oneDevice.price} рублей</h3>
               <Button size="large" variant="outlined">
                 Добавить в корзину
               </Button>
@@ -73,7 +78,7 @@ export default observer(function DevicePage() {
         >
           Характеристики
         </h2>
-        {device.info.length === 0 ? (
+        {oneDevice.info.length === 0 ? (
           <p
             //@ts-ignore
             style={{ '--motion-delay': `300ms` }}
@@ -82,7 +87,7 @@ export default observer(function DevicePage() {
             Нет характеристик
           </p>
         ) : null}
-        {device.info.map((info, i) => {
+        {oneDevice.info.map((info, i) => {
           return (
             <div
               //@ts-ignore

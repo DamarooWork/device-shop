@@ -6,7 +6,7 @@ import { Context } from '../main'
 
 export default function AppRouter() {
   const { user } = useContext(Context)
-  useEffect(() => {}, [user.isAuth])
+  useEffect(() => {}, [user])
   return (
     <Routes>
       {user.isAuth

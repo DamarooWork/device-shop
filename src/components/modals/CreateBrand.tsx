@@ -1,6 +1,8 @@
 import { Button, Modal } from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { createBrand } from '../../http/deviceAPI'
+// import { useContext } from 'react'
+// import { Context } from '../../main'
 
 export default function CreateBrand({
   open,
@@ -9,6 +11,7 @@ export default function CreateBrand({
   open: boolean
   close: () => void
 }) {
+  // const { device } = useContext(Context)
   const {
     register,
     handleSubmit,
@@ -40,7 +43,7 @@ export default function CreateBrand({
         <form
           className="flex flex-col gap-1 "
           onSubmit={handleSubmit(onSubmit)}
-        >       
+        >
           <label
             className="block mb-2 text-sm font-medium
              text-gray-900 dark:text-white intersect-once intersect:motion-preset-blur-down 
@@ -66,7 +69,29 @@ export default function CreateBrand({
               Введите название
             </p>
           )}
-
+          {/* <label
+            className="block mb-2 text-sm font-medium text-gray-900 
+            dark:text-white intersect-once intersect:motion-preset-blur-down 
+            motion-delay-300"
+            id="brand"
+          >
+            Тип
+          </label>
+          <select
+            className="cursor-pointer bg-gray-50 border border-gray-300
+             text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+            dark:focus:border-blue-500 intersect-once intersect:motion-preset-blur-down 
+            motion-delay-300"
+            {...register('typeId')}
+          >
+            {device.types.map((dev: IDevice) => {
+              return (
+                <option className="cursor-pointer" key={dev.id} value={dev.id}>
+                  {dev.name}
+                </option>
+              )
+            })}
+          </select> */}
           <footer
             className="flex gap-4 justify-end mt-4 
           intersect-once intersect:motion-preset-blur-down 
